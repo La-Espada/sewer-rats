@@ -9,3 +9,45 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User{
+  user_id Int @id @default(autoincrement())
+  user_username String @unique
+  user_email String @unique
+  user_password String
+  user_coins Int
+  created_At DateTime
+  updated_At DateTime
+  rats Rat[]
+  items Item[]
+}
+
+model Rat{
+  rat_id Int @id @default(autoincrement())
+  rat_name String  
+  rat_cost Decimal
+  rat_damage Decimal
+  rat_defense Decimal
+  rat_health Decimal
+  rat_speed Decimal
+  rat_image String
+  rat_user User @relation(fields: [userId], references: [user_id])
+  userId Int
+  rat_type Type @relation(fields:[typeId], references: [type_id])
+  typeId Int
+
+}
+
+model Type{
+  type_id Int @id @default(autoincrement())
+  type_name String
+  rats Rat[]
+}
+
+model Item{
+  item_id Int @id @default(autoincrement())
+  item_name String
+  item_description String
+  user User @relation(fields: [userId], references: [user_id])
+  userId Int
+}
