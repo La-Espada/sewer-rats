@@ -1,13 +1,14 @@
 import express from 'express';
 import  { PrismaClient } from '@prisma/client'
+import cors from "cors";
+import { userRouter } from './user/user.router';
 
 const prisma = new PrismaClient()
 const app = express();
 const port = 3000;
 
 async function main(){
-  const allUsers = await prisma.user.findMany()
-  console.log(allUsers)
+  
 }
 
 main()
@@ -27,3 +28,9 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+app.use(cors())
+app.use(express.json())
+app.use("/api/user",userRouter)
+
+export {prisma}

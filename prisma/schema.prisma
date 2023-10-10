@@ -16,8 +16,8 @@ model User{
   user_email String @unique
   user_password String
   user_coins Int
-  created_At DateTime
-  updated_At DateTime
+  created_At DateTime @default(now())
+  updated_At DateTime @updatedAt
   rats Rat[]
   items Item[]
 }
@@ -35,13 +35,16 @@ model Rat{
   userId Int
   rat_type Type @relation(fields:[typeId], references: [type_id])
   typeId Int
-
+  created_At DateTime @default(now())
+  updated_At DateTime @updatedAt
 }
 
 model Type{
   type_id Int @id @default(autoincrement())
   type_name String
   rats Rat[]
+  created_At DateTime @default(now())
+  updated_At DateTime @updatedAt
 }
 
 model Item{
@@ -50,4 +53,6 @@ model Item{
   item_description String
   user User @relation(fields: [userId], references: [user_id])
   userId Int
+  created_At DateTime @default(now())
+  updated_At DateTime @updatedAt
 }
